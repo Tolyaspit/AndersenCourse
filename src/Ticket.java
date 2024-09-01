@@ -117,6 +117,8 @@ public class Ticket {
         EVENING(1693515600),
         NIGHT(1693526400);
 
+        private final long unixTimestamp;
+
         UnixTimePeriod(long unixTimestamp){
             this.unixTimestamp = unixTimestamp;
         }
@@ -124,8 +126,6 @@ public class Ticket {
         public long getUnixTimestamp(){
             return unixTimestamp;
         }
-
-        private final long unixTimestamp;
     }
 
     @Override

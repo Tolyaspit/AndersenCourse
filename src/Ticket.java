@@ -1,26 +1,4 @@
 public class Ticket {
-    public enum StadiumSector {
-        A, B, C
-    }
-
-    public enum UnixTimePeriod{
-        MORNING(1693468800),
-        AFTERNOON(1693494000),
-        EVENING(1693515600),
-        NIGHT(1693526400);
-
-        private final long unixTimestamp;
-
-        UnixTimePeriod(long unixTimestamp){
-            this.unixTimestamp = unixTimestamp;
-        }
-
-        public long getUnixTimestamp(){
-            return unixTimestamp;
-        }
-
-    }
-
     private String id;
     private String concertHall;
     private String eventCode;
@@ -145,5 +123,25 @@ public class Ticket {
                 ", maxAllowedBackpackWeight=" + maxAllowedBackpackWeight +
                 ", ticketPrice=" + ticketPrice +
                 '}';
+    }
+    public enum StadiumSector {
+        A, B, C
+    }
+
+    public enum UnixTimePeriod{
+        MORNING(1693468800),
+        AFTERNOON(1693494000),
+        EVENING(1693515600),
+        NIGHT(1693526400);
+
+        UnixTimePeriod(long unixTimestamp){
+            this.unixTimestamp = unixTimestamp;
+        }
+
+        public long getUnixTimestamp(){
+            return unixTimestamp;
+        }
+
+        private final long unixTimestamp;
     }
 }

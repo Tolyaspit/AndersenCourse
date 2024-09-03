@@ -1,14 +1,27 @@
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TicketService {
     public static void main(String[] args) {
         TicketService ticketService = new TicketService();
-      
+
         System.out.println(" Tickets have been stored! ");
 
         Ticket ticket = ticketService.getTicketById("H890");
         System.out.println("Retrieved Ticket: " + ticket);
+
+        List<Ticket> ticketsFromStadiumSector = ticketService.getTicketsByStadiumSector(Ticket.StadiumSector.A);
+        if (!ticketsFromStadiumSector.isEmpty()) {
+            System.out.println("Found tickets:");
+            for (Ticket item : ticketsFromStadiumSector) {
+                System.out.println(item);
+            }
+        } else {
+            System.out.println("No tickets found for the given stadium sector.");
+        }
+
     }
 
     private Map<String, Ticket> ticketStorage = new HashMap<>();
@@ -34,5 +47,15 @@ public class TicketService {
             System.out.println("Ticket with ID " + id + " does not exist.");
             return null;
         }
+    }
+
+    public List<Ticket> getTicketsByStadiumSector(Ticket.StadiumSector stadiumSector) {
+        List<Ticket> sortedTickets = new ArrayList<>();
+        for (Ticket ticket : ticketStorage.values()) {
+            if (ticket.getStadiumSector().equals(stadiumSector) ) {
+                sortedTickets.add(ticket);
+            }
+        }
+        return sortedTickets;
     }
 }

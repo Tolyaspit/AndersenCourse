@@ -6,6 +6,9 @@ public class TicketService {
         TicketService ticketService = new TicketService();
 
         System.out.println(" Tickets have been stored! ");
+
+        Ticket ticket = ticketService.getTicketById("H890");
+        System.out.println("Retrieved Ticket: " + ticket);
     }
 
     private Map<String, Ticket> ticketStorage = new HashMap<>();
@@ -21,5 +24,15 @@ public class TicketService {
         ticketStorage.put("H890", new Ticket("H890", "Arena", "890", Ticket.UnixTimePeriod.EVENING, false, Ticket.StadiumSector.A, 2.0, 70.50));
         ticketStorage.put("I901", new Ticket("I901", "Hall", "901", Ticket.UnixTimePeriod.NIGHT, true, Ticket.StadiumSector.C, 5.0, 85.99));
         ticketStorage.put("J012", new Ticket("J012", "Theater", "012", Ticket.UnixTimePeriod.MORNING, false, Ticket.StadiumSector.B, 2.2, 55.00));
+    }
+
+    public Ticket getTicketById(String id) {
+        Ticket ticket = ticketStorage.get(id);
+        if (ticket != null) {
+            return ticket;
+        } else {
+            System.out.println("Ticket with ID " + id + " does not exist.");
+            return null;
+        }
     }
 }

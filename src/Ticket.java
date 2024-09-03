@@ -107,6 +107,24 @@ public class Ticket {
         this.ticketPrice = ticketPrice;
     }
 
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "id='" + id + '\'' +
+                ", concertHall='" + concertHall + '\'' +
+                ", eventCode='" + eventCode + '\'' +
+                ", time=" + time +
+                ", isPromo=" + isPromo +
+                ", stadiumSector=" + stadiumSector +
+                ", maxAllowedBackpackWeight=" + maxAllowedBackpackWeight +
+                ", ticketPrice=" + ticketPrice +
+                '}';
+    }
+
+    private void saveCreationTime() {
+        this.time = System.currentTimeMillis() / 1000;
+    }
+
     public enum StadiumSector {
         A, B, C
     }
@@ -126,23 +144,5 @@ public class Ticket {
         public long getUnixTimestamp(){
             return unixTimestamp;
         }
-    }
-
-    @Override
-    public String toString() {
-        return "Ticket{" +
-                "id='" + id + '\'' +
-                ", concertHall='" + concertHall + '\'' +
-                ", eventCode='" + eventCode + '\'' +
-                ", time=" + time +
-                ", isPromo=" + isPromo +
-                ", stadiumSector=" + stadiumSector +
-                ", maxAllowedBackpackWeight=" + maxAllowedBackpackWeight +
-                ", ticketPrice=" + ticketPrice +
-                '}';
-    }
-
-    private void saveCreationTime() {
-        this.time = System.currentTimeMillis() / 1000;
     }
 }

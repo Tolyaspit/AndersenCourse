@@ -1,13 +1,15 @@
 public class TicketService {
     public static void main(String[] args) {
 
-        Ticket empty = new Ticket();
-        Ticket limited = new Ticket("ConcertHallNum5",234,System.currentTimeMillis());
-        Ticket full = new Ticket("5678", "ConcertHallNum4",234,System.currentTimeMillis(),true,'D',8.0,30.0);
+        Ticket emptyTicket = new Ticket("", "", "", Ticket.UnixTimePeriod.EVENING, false, Ticket.StadiumSector.A, 0.0, 0.0);
+        Ticket fullTicket = new Ticket("A123", "Concert", "123", Ticket.UnixTimePeriod.AFTERNOON,
+                true, Ticket.StadiumSector.B, 5.9, 78.99);
+        Ticket limitedTicket = new Ticket("Arena", "456", Ticket.UnixTimePeriod.EVENING);
 
-        System.out.println(empty);
-        System.out.println(limited);
-        System.out.println(full);
+        System.out.println("Empty Ticket: " + emptyTicket);
+        System.out.println("Full Ticket: " + fullTicket);
+        System.out.println("Limited Ticket: " + limitedTicket);
+
+        System.out.println("Full Ticket Creation Time (seconds since epoch): " + fullTicket.getTime());
     }
-
 }

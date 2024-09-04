@@ -13,15 +13,7 @@ public class TicketService {
         System.out.println("Retrieved Ticket: " + ticket);
 
         List<Ticket> ticketsFromStadiumSector = ticketService.getTicketsByStadiumSector(Ticket.StadiumSector.A);
-        if (!ticketsFromStadiumSector.isEmpty()) {
-            System.out.println("Found tickets:");
-            for (Ticket item : ticketsFromStadiumSector) {
-                System.out.println(item);
-            }
-        } else {
-            System.out.println("No tickets found for the given stadium sector.");
-        }
-
+        ticketService.printTickets(ticketsFromStadiumSector);
     }
 
     private Map<String, Ticket> ticketStorage = new HashMap<>();
@@ -49,7 +41,7 @@ public class TicketService {
         }
     }
 
-    public List<Ticket> getTicketsByStadiumSector(Ticket.StadiumSector stadiumSector) {
+    private List<Ticket> getTicketsByStadiumSector(Ticket.StadiumSector stadiumSector) {
         List<Ticket> sortedTickets = new ArrayList<>();
         for (Ticket ticket : ticketStorage.values()) {
             if (ticket.getStadiumSector().equals(stadiumSector) ) {
@@ -57,5 +49,16 @@ public class TicketService {
             }
         }
         return sortedTickets;
+    }
+
+    private void printTickets(List<Ticket> ticketsFromStadiumSector){
+        if (!ticketsFromStadiumSector.isEmpty()) {
+            System.out.println("Found tickets:");
+            for (Ticket item : ticketsFromStadiumSector) {
+                System.out.println(item);
+            }
+        } else {
+            System.out.println("No tickets found for the given stadium sector.");
+        }
     }
 }

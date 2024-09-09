@@ -15,7 +15,7 @@ public class TicketService {
         List<Ticket> ticketsFromStadiumSector = ticketService.getTicketsByStadiumSector(Ticket.StadiumSector.A);
         ticketService.printTickets(ticketsFromStadiumSector);
     }
-
+  
     private Map<String, Ticket> ticketStorage = new HashMap<>();
 
     public TicketService() {

@@ -124,7 +124,6 @@ public class Ticket {
     private void saveCreationTime() {
         this.time = System.currentTimeMillis() / 1000;
     }
-
     public enum StadiumSector {
         A, B, C
     }

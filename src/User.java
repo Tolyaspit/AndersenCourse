@@ -1,4 +1,4 @@
-public abstract class User extends Abstract {
+public abstract class User extends AbstractNumericID {
     public abstract void printRole();
 }
 

@@ -6,9 +6,16 @@ public class Client extends User{
 
     @Override
     public void print() {
+        System.out.println("Client details: ");
     }
 
     public Ticket getTicket(String id, TicketService service){
-        return service.getTicketById(id);
+        Ticket ticket = service.getTicketById(id);
+        if (ticket == null) {
+            System.out.println("No ticket found with ID: " + id);
+        } else {
+            System.out.println("Ticket found: " + ticket);
+        }
+        return ticket;
     }
 }

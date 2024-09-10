@@ -1,5 +1,4 @@
-public class Ticket extends Abstract{
-    private String id;
+public class Ticket extends AbstractNumericID{
     private String concertHall;
     private String eventCode;
     private UnixTimePeriod timePeriod;
@@ -10,8 +9,8 @@ public class Ticket extends Abstract{
     private double maxAllowedBackpackWeight;
     private double ticketPrice;
 
-    public Ticket(String id, String concertHall, String eventCode, UnixTimePeriod timePeriod, boolean isPromo, StadiumSector stadiumSector, double maxAllowedBackpackWeight, double ticketPrice) {
-        this.id = id;
+    public Ticket(String id,String concertHall, String eventCode, UnixTimePeriod timePeriod, boolean isPromo, StadiumSector stadiumSector, double maxAllowedBackpackWeight, double ticketPrice) {
+        super.setId(id);
         this.concertHall = concertHall;
         this.eventCode = eventCode;
         this.timePeriod = timePeriod;
@@ -22,7 +21,8 @@ public class Ticket extends Abstract{
         saveCreationTime();
     }
 
-    public Ticket(String concertHall, String eventCode, UnixTimePeriod timePeriod) {
+    public Ticket(String id,String concertHall, String eventCode, UnixTimePeriod timePeriod) {
+        super.setId(id);
         this.concertHall = concertHall;
         this.eventCode = eventCode;
         this.timePeriod = timePeriod;
@@ -32,16 +32,14 @@ public class Ticket extends Abstract{
     public Ticket() {
     }
 
+    @Override
     public String getId() {
-        return id;
+        return super.getId();
     }
 
-    private void setId(String id){
-        if ((id.length()==4) && id.matches(("[a-zA-Z0-9]{4}"))) {
-            this.id = id;
-        }else {
-            throw new IllegalArgumentException("ID must be exactly 4 digits or characters");
-        }
+    @Override
+    public void setId(String id) {
+        super.setId(id);
     }
 
     public String getConcertHall(String concertHall){

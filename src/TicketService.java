@@ -15,13 +15,16 @@ public class TicketService {
         List<Ticket> ticketsFromStadiumSector = ticketService.getTicketsByStadiumSector(Ticket.StadiumSector.A);
         ticketService.printTickets(ticketsFromStadiumSector);
 
-        Client client = new Client();
+        User client = new Client();
+        client.print();
         client.printRole();
-        Ticket clientTicket = client.getTicket("A123",ticketService);
+        Ticket clientTicket = ((Client)client).getTicket("A123",ticketService);
 
-        Admin admin = new Admin();
+        User admin = new Admin();
+        admin.print();
         admin.printRole();
-        admin.checkTicket(clientTicket);
+        boolean isValidTicket = ((Admin)admin).checkTicket(clientTicket);
+        System.out.println("Is ticket valid: " + isValidTicket);
 
         clientTicket.shared("+7775-123");
         clientTicket.shared("+7775-123","tolyaspit@gmail.com");

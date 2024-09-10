@@ -14,6 +14,17 @@ public class TicketService {
 
         List<Ticket> ticketsFromStadiumSector = ticketService.getTicketsByStadiumSector(Ticket.StadiumSector.A);
         ticketService.printTickets(ticketsFromStadiumSector);
+
+        Client client = new Client();
+        client.printRole();
+        Ticket clientTicket = client.getTicket("A123",ticketService);
+
+        Admin admin = new Admin();
+        admin.printRole();
+        admin.checkTicket(clientTicket);
+
+        clientTicket.shared("+7775-123");
+        clientTicket.shared("+7775-123","tolyaspit@gmail.com");
     }
   
     private Map<String, Ticket> ticketStorage = new HashMap<>();

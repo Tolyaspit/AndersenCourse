@@ -1,8 +1,9 @@
-public class Ticket {
+public class Ticket extends Abstract{
     private String id;
     private String concertHall;
     private String eventCode;
     private UnixTimePeriod timePeriod;
+    @NullableWarning(message = "ID is null in Ticket!")
     private long time;
     private boolean isPromo;
     private StadiumSector stadiumSector;
@@ -31,11 +32,11 @@ public class Ticket {
     public Ticket() {
     }
 
-    public String getId(){
+    public String getId() {
         return id;
     }
 
-    public void setId(String id){
+    private void setId(String id){
         if ((id.length()==4) && id.matches(("[a-zA-Z0-9]{4}"))) {
             this.id = id;
         }else {
@@ -47,7 +48,7 @@ public class Ticket {
         return  concertHall;
     }
 
-    public void setConcertHall(String concertHall){
+    private void setConcertHall(String concertHall){
         if (concertHall.length() <= 10){
             this.concertHall = concertHall;
         }else {
@@ -59,7 +60,7 @@ public class Ticket {
         return eventCode;
     }
 
-    public void setEventCode(String eventCode){
+    private void setEventCode(String eventCode){
         if (eventCode.length() == 3 && eventCode.matches("\\d{3}")){
             this.eventCode = eventCode;
         }else {
@@ -71,6 +72,10 @@ public class Ticket {
         return timePeriod;
     }
 
+    public void setTimePeriod(UnixTimePeriod timePeriod){
+        this.timePeriod = timePeriod;
+    }
+
     public long getTime(){
         return time;
     }
@@ -79,7 +84,7 @@ public class Ticket {
         return isPromo;
     }
 
-    public void setPromo(boolean promo) {
+    private void setPromo(boolean promo) {
         isPromo = promo;
     }
 
@@ -95,7 +100,7 @@ public class Ticket {
         return maxAllowedBackpackWeight;
     }
 
-    public void setMaxAllowedBackpackWeight(double maxAllowedBackpackWeight) {
+    private void setMaxAllowedBackpackWeight(double maxAllowedBackpackWeight) {
         this.maxAllowedBackpackWeight = maxAllowedBackpackWeight;
     }
 
@@ -103,8 +108,18 @@ public class Ticket {
         return ticketPrice;
     }
 
-    public void setPrice(double ticketPrice) {
+    private void setPrice(double ticketPrice) {
         this.ticketPrice = ticketPrice;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 
     @Override
@@ -121,11 +136,31 @@ public class Ticket {
                 '}';
     }
 
+    @Override
+    public void print() {
+        System.out.println("Ticket: ");
+        System.out.println(this.toString());
+    }
+
     private void saveCreationTime() {
         this.time = System.currentTimeMillis() / 1000;
     }
     public enum StadiumSector {
         A, B, C
+    }
+
+    public void validateId() {
+        if (this.id == null) {
+            System.out.println("ID is null in Ticket!");
+        }
+    }
+
+    public void shared(String phone) {
+        System.out.println("Ticket shared by phone: " + phone);
+    }
+
+    public void shared(String phone, String email) {
+        System.out.println("Ticket shared by phone and email: " + phone + ", " + email);
     }
 
     public enum UnixTimePeriod{

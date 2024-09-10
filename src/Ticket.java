@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Ticket extends AbstractNumericID{
     private String concertHall;
     private String eventCode;
@@ -30,16 +32,6 @@ public class Ticket extends AbstractNumericID{
     }
 
     public Ticket() {
-    }
-
-    @Override
-    public String getId() {
-        return super.getId();
-    }
-
-    @Override
-    public void setId(String id) {
-        super.setId(id);
     }
 
     public String getConcertHall(String concertHall){
@@ -111,13 +103,16 @@ public class Ticket extends AbstractNumericID{
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ticket ticket = (Ticket) o;
+        return time == ticket.time && isPromo == ticket.isPromo && Double.compare(maxAllowedBackpackWeight, ticket.maxAllowedBackpackWeight) == 0 && Double.compare(ticketPrice, ticket.ticketPrice) == 0 && Objects.equals(concertHall, ticket.concertHall) && Objects.equals(eventCode, ticket.eventCode) && timePeriod == ticket.timePeriod && stadiumSector == ticket.stadiumSector;
     }
 
     @Override
     public int hashCode() {
-        return super.hashCode();
+        return Objects.hash(concertHall, eventCode, timePeriod, time, isPromo, stadiumSector, maxAllowedBackpackWeight, ticketPrice);
     }
 
     @Override

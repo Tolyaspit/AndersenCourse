@@ -1,16 +1,18 @@
-public class Ticket {
-    private String id;
+import java.util.Objects;
+
+public class Ticket extends AbstractNumericID{
     private String concertHall;
     private String eventCode;
     private UnixTimePeriod timePeriod;
+    @NullableWarning(message = "ID is null in Ticket!")
     private long time;
     private boolean isPromo;
     private StadiumSector stadiumSector;
     private double maxAllowedBackpackWeight;
     private double ticketPrice;
 
-    public Ticket(String id, String concertHall, String eventCode, UnixTimePeriod timePeriod, boolean isPromo, StadiumSector stadiumSector, double maxAllowedBackpackWeight, double ticketPrice) {
-        this.id = id;
+    public Ticket(String id,String concertHall, String eventCode, UnixTimePeriod timePeriod, boolean isPromo, StadiumSector stadiumSector, double maxAllowedBackpackWeight, double ticketPrice) {
+        super.setId(id);
         this.concertHall = concertHall;
         this.eventCode = eventCode;
         this.timePeriod = timePeriod;
@@ -21,7 +23,8 @@ public class Ticket {
         saveCreationTime();
     }
 
-    public Ticket(String concertHall, String eventCode, UnixTimePeriod timePeriod) {
+    public Ticket(String id,String concertHall, String eventCode, UnixTimePeriod timePeriod) {
+        super.setId(id);
         this.concertHall = concertHall;
         this.eventCode = eventCode;
         this.timePeriod = timePeriod;
@@ -31,23 +34,11 @@ public class Ticket {
     public Ticket() {
     }
 
-    public String getId(){
-        return id;
-    }
-
-    public void setId(String id){
-        if ((id.length()==4) && id.matches(("[a-zA-Z0-9]{4}"))) {
-            this.id = id;
-        }else {
-            throw new IllegalArgumentException("ID must be exactly 4 digits or characters");
-        }
-    }
-
     public String getConcertHall(String concertHall){
         return  concertHall;
     }
 
-    public void setConcertHall(String concertHall){
+    private void setConcertHall(String concertHall){
         if (concertHall.length() <= 10){
             this.concertHall = concertHall;
         }else {
@@ -59,7 +50,7 @@ public class Ticket {
         return eventCode;
     }
 
-    public void setEventCode(String eventCode){
+    private void setEventCode(String eventCode){
         if (eventCode.length() == 3 && eventCode.matches("\\d{3}")){
             this.eventCode = eventCode;
         }else {
@@ -71,6 +62,10 @@ public class Ticket {
         return timePeriod;
     }
 
+    public void setTimePeriod(UnixTimePeriod timePeriod){
+        this.timePeriod = timePeriod;
+    }
+
     public long getTime(){
         return time;
     }
@@ -79,7 +74,7 @@ public class Ticket {
         return isPromo;
     }
 
-    public void setPromo(boolean promo) {
+    private void setPromo(boolean promo) {
         isPromo = promo;
     }
 
@@ -95,7 +90,7 @@ public class Ticket {
         return maxAllowedBackpackWeight;
     }
 
-    public void setMaxAllowedBackpackWeight(double maxAllowedBackpackWeight) {
+    private void setMaxAllowedBackpackWeight(double maxAllowedBackpackWeight) {
         this.maxAllowedBackpackWeight = maxAllowedBackpackWeight;
     }
 
@@ -103,8 +98,27 @@ public class Ticket {
         return ticketPrice;
     }
 
-    public void setPrice(double ticketPrice) {
+    private void setPrice(double ticketPrice) {
         this.ticketPrice = ticketPrice;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ticket ticket = (Ticket) o;
+        return time == ticket.time
+        && isPromo == ticket.isPromo
+        && Double.compare(maxAllowedBackpackWeight, ticket.maxAllowedBackpackWeight) == 0
+        && Double.compare(ticketPrice, ticket.ticketPrice) == 0 && Objects.equals(concertHall, ticket.concertHall)
+        && Objects.equals(eventCode, ticket.eventCode)
+        && timePeriod == ticket.timePeriod
+        && stadiumSector == ticket.stadiumSector;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(concertHall, eventCode, timePeriod, time, isPromo, stadiumSector, maxAllowedBackpackWeight, ticketPrice);
     }
 
     @Override
@@ -121,11 +135,31 @@ public class Ticket {
                 '}';
     }
 
+    @Override
+    public void print() {
+        System.out.println("Ticket: ");
+        System.out.println(this.toString());
+    }
+
     private void saveCreationTime() {
         this.time = System.currentTimeMillis() / 1000;
     }
     public enum StadiumSector {
         A, B, C
+    }
+
+    public void validateId() {
+        if (this.id == null) {
+            System.out.println("ID is null in Ticket!");
+        }
+    }
+
+    public void shared(String phone) {
+        System.out.println("Ticket shared by phone: " + phone);
+    }
+
+    public void shared(String phone, String email) {
+        System.out.println("Ticket shared by phone and email: " + phone + ", " + email);
     }
 
     public enum UnixTimePeriod{

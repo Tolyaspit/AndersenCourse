@@ -14,6 +14,20 @@ public class TicketService {
 
         List<Ticket> ticketsFromStadiumSector = ticketService.getTicketsByStadiumSector(Ticket.StadiumSector.A);
         ticketService.printTickets(ticketsFromStadiumSector);
+
+        User client = new Client();
+        client.print();
+        client.printRole();
+        Ticket clientTicket = ((Client)client).getTicket("A123",ticketService);
+
+        User admin = new Admin();
+        admin.print();
+        admin.printRole();
+        boolean isValidTicket = ((Admin)admin).checkTicket(clientTicket);
+        System.out.println("Is ticket valid: " + isValidTicket);
+
+        clientTicket.shared("+7775-123");
+        clientTicket.shared("+7775-123","tolyaspit@gmail.com");
     }
   
     private Map<String, Ticket> ticketStorage = new HashMap<>();

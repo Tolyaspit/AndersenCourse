@@ -107,7 +107,13 @@ public class Ticket extends AbstractNumericID{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Ticket ticket = (Ticket) o;
-        return time == ticket.time && isPromo == ticket.isPromo && Double.compare(maxAllowedBackpackWeight, ticket.maxAllowedBackpackWeight) == 0 && Double.compare(ticketPrice, ticket.ticketPrice) == 0 && Objects.equals(concertHall, ticket.concertHall) && Objects.equals(eventCode, ticket.eventCode) && timePeriod == ticket.timePeriod && stadiumSector == ticket.stadiumSector;
+        return time == ticket.time
+        && isPromo == ticket.isPromo
+        && Double.compare(maxAllowedBackpackWeight, ticket.maxAllowedBackpackWeight) == 0
+        && Double.compare(ticketPrice, ticket.ticketPrice) == 0 && Objects.equals(concertHall, ticket.concertHall)
+        && Objects.equals(eventCode, ticket.eventCode)
+        && timePeriod == ticket.timePeriod
+        && stadiumSector == ticket.stadiumSector;
     }
 
     @Override

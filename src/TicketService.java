@@ -34,7 +34,7 @@ public class TicketService {
         clientTicket.shared("+7775-123","tolyaspit@gmail.com");
     }
 
-    public List<Ticket> createTicketsFromPayload() {
+    private List<Ticket> createTicketsFromPayload() {
         List<Ticket> tickets = new ArrayList<>();
 
         tickets.add(new Ticket("CLA", "DAY", "2025-01-01", 0));
@@ -83,7 +83,7 @@ public class TicketService {
         }
     }
 
-    public void validateAndProcessTickets(List<Ticket> tickets) {
+    private void validateAndProcessTickets(List<Ticket> tickets) {
         TicketValidator validator = new TicketValidator();
         int totalTickets = tickets.size();
         int validTickets = 0;

@@ -105,7 +105,7 @@ public class Ticket extends AbstractNumericID{
         this.maxAllowedBackpackWeight = maxAllowedBackpackWeight;
     }
 
-    public double getTicketPricePrice() {
+    public double getTicketPrice() {
         return ticketPrice;
     }
 
@@ -113,21 +113,37 @@ public class Ticket extends AbstractNumericID{
         this.ticketPrice = ticketPrice;
     }
 
-    public String getTicketClass() { return ticketClass; }
+    public String getTicketClass() {
+        return ticketClass;
+    }
 
-    public String getTicketType() { return ticketType; }
+    public String getTicketType() {
+        return ticketType;
+    }
 
-    public String getStartDate() { return startDate; }
+    public String getStartDate() {
+        return startDate;
+    }
 
-    public Integer getPrice() { return price; }
+    public Integer getPrice() {
+        return price;
+    }
 
-    public void setTicketClass(String ticketClass) { this.ticketClass = ticketClass; }
+    public void setTicketClass(String ticketClass) {
+        this.ticketClass = ticketClass;
+    }
 
-    public void setTicketType(String ticketType) { this.ticketType = ticketType; }
+    public void setTicketType(String ticketType) {
+        this.ticketType = ticketType;
+    }
 
-    public void setStartDate(String startDate) { this.startDate = startDate; }
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
 
-    public void setPrice(Integer price) { this.price = price; }
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
 
     @Override
     public boolean equals(Object o) {

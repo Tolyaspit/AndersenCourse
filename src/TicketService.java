@@ -7,6 +7,10 @@ public class TicketService {
     public static void main(String[] args) {
         TicketService ticketService = new TicketService();
 
+        List<Ticket> tickets = ticketService.createTicketsFromPayload();
+
+        ticketService.validateAndProcessTickets(tickets);
+
         System.out.println(" Tickets have been stored! ");
 
         Ticket ticket = ticketService.getTicketById("H890");
@@ -28,6 +32,30 @@ public class TicketService {
 
         clientTicket.shared("+7775-123");
         clientTicket.shared("+7775-123","tolyaspit@gmail.com");
+    }
+
+    private List<Ticket> createTicketsFromPayload() {
+        List<Ticket> tickets = new ArrayList<>();
+
+        tickets.add(new Ticket("CLA", "DAY", "2025-01-01", 0));
+        tickets.add(new Ticket("CLA", "DAY", "2025-01-01", 10));
+        tickets.add(new Ticket("CLA", "PRIME", null, 1000));
+        tickets.add(new Ticket("STD", "DAY", "2025-01-01", 0));
+        tickets.add(new Ticket("STD", "WEEK", "2020-01-01", 50));
+        tickets.add(new Ticket("CLA", "YEAR", "2020-01-01", 500));
+        tickets.add(new Ticket("CLA", "MONTH", "2020-01-01", 100));
+        tickets.add(new Ticket("CLA", "DAY", "2020-01-01", 100));
+        tickets.add(new Ticket(null, "MONTH", "2020-01-01", 100));
+        tickets.add(new Ticket("STD", "MONTH", "2020-01-01", 100));
+        tickets.add(new Ticket("STD", null, "2020-01-01", 1000));
+        tickets.add(new Ticket("STD", "YEAR", "", 100));
+        tickets.add(new Ticket("CLA", "MONTH", "2020-01-01", 99));
+        tickets.add(new Ticket("STD", "PRIME", "2020-01-01", 0));
+        tickets.add(new Ticket("CLA", "YEAR", null, 100));
+        tickets.add(new Ticket("STD", "DAY", "2028-01-01", 100));
+        tickets.add(new Ticket("CLA", "DAY", (String) null, 0));
+
+        return tickets;
     }
   
     private Map<String, Ticket> ticketStorage = new HashMap<>();
@@ -53,6 +81,33 @@ public class TicketService {
             System.out.println("Ticket with ID " + id + " does not exist.");
             return null;
         }
+    }
+
+    private void validateAndProcessTickets(List<Ticket> tickets) {
+        TicketValidator validator = new TicketValidator();
+        int totalTickets = tickets.size();
+        int validTickets = 0;
+        Map<String, Integer> violationCounts = new HashMap<>();
+
+        for (Ticket ticket : tickets) {
+            Map<String, String> violations = validator.validate(ticket);
+            if (violations.isEmpty()) {
+                validTickets++;
+            } else {
+                for (String violationType : violations.keySet()) {
+                    violationCounts.put(violationType, violationCounts.getOrDefault(violationType, 0) + 1);
+                }
+            }
+        }
+
+        System.out.println("Total = " + totalTickets);
+        System.out.println("Valid = " + validTickets);
+
+        String mostPopularViolation = violationCounts.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse("None");
+        System.out.println("Most popular violation = " + mostPopularViolation);
     }
 
     private List<Ticket> getTicketsByStadiumSector(Ticket.StadiumSector stadiumSector) {

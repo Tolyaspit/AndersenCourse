@@ -10,6 +10,10 @@ public class Ticket extends AbstractNumericID{
     private StadiumSector stadiumSector;
     private double maxAllowedBackpackWeight;
     private double ticketPrice;
+    private String ticketClass;
+    private String ticketType;
+    private String startDate;
+    private Integer price;
 
     public Ticket(String id,String concertHall, String eventCode, UnixTimePeriod timePeriod, boolean isPromo, StadiumSector stadiumSector, double maxAllowedBackpackWeight, double ticketPrice) {
         super.setId(id);
@@ -29,6 +33,13 @@ public class Ticket extends AbstractNumericID{
         this.eventCode = eventCode;
         this.timePeriod = timePeriod;
         saveCreationTime();
+    }
+
+    public Ticket(String ticketClass, String ticketType, String startDate, Integer price) {
+        this.ticketClass = ticketClass;
+        this.ticketType = ticketType;
+        this.startDate = startDate;
+        this.price = price;
     }
 
     public Ticket() {
@@ -94,12 +105,44 @@ public class Ticket extends AbstractNumericID{
         this.maxAllowedBackpackWeight = maxAllowedBackpackWeight;
     }
 
-    public double getPrice() {
+    public double getTicketPrice() {
         return ticketPrice;
     }
 
     private void setPrice(double ticketPrice) {
         this.ticketPrice = ticketPrice;
+    }
+
+    public String getTicketClass() {
+        return ticketClass;
+    }
+
+    public String getTicketType() {
+        return ticketType;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setTicketClass(String ticketClass) {
+        this.ticketClass = ticketClass;
+    }
+
+    public void setTicketType(String ticketType) {
+        this.ticketType = ticketType;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
     }
 
     @Override

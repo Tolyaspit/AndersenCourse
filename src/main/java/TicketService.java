@@ -1,10 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TicketService {
     public static void main(String[] args) {
@@ -40,7 +34,7 @@ public class TicketService {
     public List<Ticket> createTicketsFromPayload() {
         List<Ticket> tickets = new ArrayList<>();
 
-        tickets.add(new Ticket("CLA", "DAY", "2025-01-01", 0));
+        tickets.add(new Ticket("CLA", "DAY", ("2025-01-01"), 0));
         tickets.add(new Ticket("CLA", "DAY", "2025-01-01", 10));
         tickets.add(new Ticket("CLA", "PRIME", null, 1000));
         tickets.add(new Ticket("STD", "DAY", "2025-01-01", 0));
@@ -56,6 +50,7 @@ public class TicketService {
         tickets.add(new Ticket("STD", "PRIME", "2020-01-01", 0));
         tickets.add(new Ticket("CLA", "YEAR", null, 100));
         tickets.add(new Ticket("STD", "DAY", "2028-01-01", 100));
+        tickets.add(new Ticket("CLA","DAY", (String) null, 0));
 
         return tickets;
     }

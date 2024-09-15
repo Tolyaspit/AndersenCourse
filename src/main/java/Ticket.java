@@ -10,6 +10,11 @@ public class Ticket extends AbstractNumericID{
     private StadiumSector stadiumSector;
     private double maxAllowedBackpackWeight;
     private double ticketPrice;
+    private String ticketClass;
+    private String ticketType;
+    private String startDate;
+    private int price;
+
 
     public Ticket(String id,String concertHall, String eventCode, UnixTimePeriod timePeriod, boolean isPromo, StadiumSector stadiumSector, double maxAllowedBackpackWeight, double ticketPrice) {
         super.setId(id);
@@ -29,6 +34,13 @@ public class Ticket extends AbstractNumericID{
         this.eventCode = eventCode;
         this.timePeriod = timePeriod;
         saveCreationTime();
+    }
+
+    public Ticket(String ticketClass, String ticketType, String startDate, int price) {
+        this.ticketClass = ticketClass;
+        this.ticketType = ticketType;
+        this.startDate = startDate;
+        this.price = price;
     }
 
     public Ticket() {
@@ -94,13 +106,25 @@ public class Ticket extends AbstractNumericID{
         this.maxAllowedBackpackWeight = maxAllowedBackpackWeight;
     }
 
-    public double getPrice() {
+    public double getTicketPrice() {
         return ticketPrice;
     }
 
     private void setPrice(double ticketPrice) {
         this.ticketPrice = ticketPrice;
     }
+
+    public String getTicketClass() { return ticketClass; }
+    public void setTicketClass(String ticketClass) { this.ticketClass = ticketClass; }
+
+    public String getTicketType() { return ticketType; }
+    public void setTicketType(String ticketType) { this.ticketType = ticketType; }
+
+    public String getStartDate() { return startDate; }
+    public void setStartDate(String startDate) { this.startDate = startDate; }
+
+    public int getPrice() { return price; }
+    public void setPrice(int price) { this.price = price; }
 
     @Override
     public boolean equals(Object o) {

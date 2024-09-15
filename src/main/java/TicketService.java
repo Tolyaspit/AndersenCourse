@@ -1,3 +1,6 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -6,6 +9,10 @@ import java.util.Map;
 public class TicketService {
     public static void main(String[] args) {
         TicketService ticketService = new TicketService();
+
+        List<Ticket> tickets = ticketService.createTicketsFromPayload();
+
+        ticketService.validateAndProcessTickets(tickets);
 
         System.out.println(" Tickets have been stored! ");
 
@@ -29,8 +36,31 @@ public class TicketService {
         clientTicket.shared("+7775-123");
         clientTicket.shared("+7775-123","tolyaspit@gmail.com");
     }
+
+    public List<Ticket> createTicketsFromPayload() {
+        List<Ticket> tickets = new ArrayList<>();
+
+        tickets.add(new Ticket("CLA", "DAY", "2025-01-01", 0));
+        tickets.add(new Ticket("CLA", "DAY", "2025-01-01", 10));
+        tickets.add(new Ticket("CLA", "PRIME", null, 1000));
+        tickets.add(new Ticket("STD", "DAY", "2025-01-01", 0));
+        tickets.add(new Ticket("STD", "WEEK", "2020-01-01", 50));
+        tickets.add(new Ticket("CLA", "YEAR", "2020-01-01", 500));
+        tickets.add(new Ticket("CLA", "MONTH", "2020-01-01", 100));
+        tickets.add(new Ticket("CLA", "DAY", "2020-01-01", 100));
+        tickets.add(new Ticket(null, "MONTH", "2020-01-01", 100));
+        tickets.add(new Ticket("STD", "MONTH", "2020-01-01", 100));
+        tickets.add(new Ticket("STD", null, "2020-01-01", 1000));
+        tickets.add(new Ticket("STD", "YEAR", "", 100));
+        tickets.add(new Ticket("CLA", "MONTH", "2020-01-01", 99));
+        tickets.add(new Ticket("STD", "PRIME", "2020-01-01", 0));
+        tickets.add(new Ticket("CLA", "YEAR", null, 100));
+        tickets.add(new Ticket("STD", "DAY", "2028-01-01", 100));
+
+        return tickets;
+    }
   
-    private Map<String, Ticket> ticketStorage = new HashMap<>();
+    private Map<String, Ticket> ticketStorage = new HashMap<String, Ticket>();
 
     public TicketService() {
         ticketStorage.put("A123", new Ticket("A123", "Concert", "123", Ticket.UnixTimePeriod.NIGHT, true, Ticket.StadiumSector.B, 5.5, 99.99));
@@ -56,7 +86,7 @@ public class TicketService {
     }
 
     private List<Ticket> getTicketsByStadiumSector(Ticket.StadiumSector stadiumSector) {
-        List<Ticket> sortedTickets = new ArrayList<>();
+        List<Ticket> sortedTickets = new ArrayList<Ticket>();
         for (Ticket ticket : ticketStorage.values()) {
             if (ticket.getStadiumSector().equals(stadiumSector) ) {
                 sortedTickets.add(ticket);
@@ -74,5 +104,32 @@ public class TicketService {
         } else {
             System.out.println("No tickets found for the given stadium sector.");
         }
+    }
+
+    public void validateAndProcessTickets(List<Ticket> tickets) {
+        TicketValidator validator = new TicketValidator();
+        int totalTickets = tickets.size();
+        int validTickets = 0;
+        Map<String, Integer> violationCounts = new HashMap<>();
+
+        for (Ticket ticket : tickets) {
+            Map<String, String> violations = validator.validate(ticket);
+            if (violations.isEmpty()) {
+                validTickets++;
+            } else {
+                for (String violationType : violations.keySet()) {
+                    violationCounts.put(violationType, violationCounts.getOrDefault(violationType, 0) + 1);
+                }
+            }
+        }
+
+        System.out.println("Total = " + totalTickets);
+        System.out.println("Valid = " + validTickets);
+
+        String mostPopularViolation = violationCounts.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse("None");
+        System.out.println("Most popular violation = " + mostPopularViolation);
     }
 }

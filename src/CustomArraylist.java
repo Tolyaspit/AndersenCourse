@@ -10,7 +10,6 @@ public class CustomArraylist<T> {
     }
 
     public void add(T element) {
-        // Resize the array if it is full
         if (size == elements.length) {
             resize();
         }

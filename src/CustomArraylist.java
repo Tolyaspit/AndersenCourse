@@ -2,7 +2,7 @@ import java.util.Arrays;
 
 public class CustomArraylist<T> {
     private Object[] elements; // to store elements
-    private int size = 0;      // number of elements
+    private int size;      // number of elements
     private static final int DEFAULT_CAPACITY = 10;
 
     public CustomArraylist() {
@@ -18,21 +18,12 @@ public class CustomArraylist<T> {
 
     @SuppressWarnings("unchecked")
     public T get(int index) {
-        if (index >= size || index < 0) {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
-        }
+        validateIndex(index);
         return (T) elements[index];
     }
 
-    private void resize() {
-        int newCapacity = elements.length * 2;
-        elements = Arrays.copyOf(elements, newCapacity);
-    }
-
     public T remove(int index) {
-        if (index >= size || index < 0) {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
-        }
+        validateIndex(index);
 
         @SuppressWarnings("unchecked")
         T removedElement = (T) elements[index];
@@ -54,5 +45,16 @@ public class CustomArraylist<T> {
             System.out.print(elements[i] + " ");
         }
         System.out.println();
+    }
+
+    private void resize() {
+        int newCapacity = elements.length * 2;
+        elements = Arrays.copyOf(elements, newCapacity);
+    }
+
+    private void validateIndex(int index) {
+        if (index >= size || index < 0) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
     }
 }

@@ -5,29 +5,11 @@ public class CustomHashSet<T> {
     private static final float LOAD_FACTOR = 0.75f;
     private LinkedList<T>[] buckets; // Array of buckets (linked lists)
     // We'll use separate chaining with linked lists to handle hash collisions
-    private int size = 0;
+    private int size;
 
 
     public CustomHashSet() {
         buckets = new LinkedList[INITIAL_CAPACITY];
-    }
-
-    private int getBucketIndex(T key) {
-        int hash = key.hashCode();
-        return Math.abs(hash) % buckets.length;
-    }
-
-    private void resize() {
-        LinkedList<T>[] oldBuckets = buckets;
-        buckets = new LinkedList[oldBuckets.length * 2];
-        size = 0;
-        for (LinkedList<T> bucket : oldBuckets) {
-            if (bucket != null) {
-                for (T key : bucket) {
-                    add(key);
-                }
-            }
-        }
     }
 
     public void add(T key) {
@@ -74,5 +56,23 @@ public class CustomHashSet<T> {
             }
         }
         System.out.println();
+    }
+
+    private int getBucketIndex(T key) {
+        int hash = key.hashCode();
+        return Math.abs(hash) % buckets.length;
+    }
+
+    private void resize() {
+        LinkedList<T>[] oldBuckets = buckets;
+        buckets = new LinkedList[oldBuckets.length * 2];
+        size = 0;
+        for (LinkedList<T> bucket : oldBuckets) {
+            if (bucket != null) {
+                for (T key : bucket) {
+                    add(key);
+                }
+            }
+        }
     }
 }

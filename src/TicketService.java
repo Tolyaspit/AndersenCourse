@@ -32,6 +32,44 @@ public class TicketService {
 
         clientTicket.shared("+7775-123");
         clientTicket.shared("+7775-123","tolyaspit@gmail.com");
+
+        CustomArraylist<Integer> list = new CustomArraylist<>();
+
+        list.add(10);
+        list.add(20);
+        list.add(30);
+
+        System.out.println("Element at index 1: " + list.get(1));
+        System.out.println("Size: " + list.size());
+
+        list.print();
+
+        list.remove(1);
+        list.print();
+
+        System.out.println("Size: " + list.size());
+
+        CustomHashSet<String> set = new CustomHashSet<>();
+
+        set.add("Apple");
+        set.add("Banana");
+        set.add("Cherry");
+
+        // check size
+        System.out.println("Size: " + set.size());
+
+        // check contained or not
+        System.out.println("Contains 'Apple': " + set.contains("Apple"));
+        System.out.println("Contains 'Grapes': " + set.contains("Grapes"));
+
+        // iterating
+        set.printElements();
+
+        // removing
+        set.remove("Banana");
+        set.printElements();
+
+        System.out.println("Size: " + set.size());
     }
 
     private List<Ticket> createTicketsFromPayload() {

@@ -3,6 +3,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NewUserDAOImpl implements NewUserDAO {
+    private static final String INSERT_USER =
+            "INSERT INTO User (name, email) VALUES (?, ?)";
+    private static final String SELECT_USER_BY_ID =
+            "SELECT * FROM User WHERE id = ?";
+    private static final String SELECT_ALL_USERS =
+            "SELECT * FROM User";
+    private static final String UPDATE_USER =
+            "UPDATE User SET name = ?, email = ? WHERE id = ?";
+    private static final String DELETE_USER =
+            "DELETE FROM User WHERE id = ?";
 
     private Connection connection;
 
@@ -12,8 +22,7 @@ public class NewUserDAOImpl implements NewUserDAO {
 
     @Override
     public void saveUser(NewUser user) {
-        final String sql = "INSERT INTO User (id, name, email) VALUES (?, ?, ?)";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (PreparedStatement ps = connection.prepareStatement(INSERT_USER)) {
             ps.setInt(1, user.getId());
             ps.setString(2, user.getName());
             ps.setString(3, user.getEmail());
@@ -25,9 +34,8 @@ public class NewUserDAOImpl implements NewUserDAO {
 
     @Override
     public NewUser getUserById(int id) {
-        final String sql = "SELECT * FROM User WHERE id = ?";
         NewUser user = null;
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (PreparedStatement ps = connection.prepareStatement(SELECT_USER_BY_ID)) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -41,10 +49,9 @@ public class NewUserDAOImpl implements NewUserDAO {
 
     @Override
     public List<NewUser> getAllUsers() {
-        final String sql = "SELECT * FROM User";
         List<NewUser> users = new ArrayList<>();
         try (Statement stmt = connection.createStatement()) {
-            ResultSet rs = stmt.executeQuery(sql);
+            ResultSet rs = stmt.executeQuery(SELECT_ALL_USERS);
             while (rs.next()) {
                 users.add(new NewUser(rs.getInt("id"), rs.getString("name"),
                         rs.getString("email")));
@@ -57,8 +64,7 @@ public class NewUserDAOImpl implements NewUserDAO {
 
     @Override
     public void updateUser(NewUser user) {
-        final String sql = "UPDATE User SET name = ?, email = ? WHERE id = ?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (PreparedStatement ps = connection.prepareStatement(UPDATE_USER)) {
             ps.setString(1, user.getName());
             ps.setString(2, user.getEmail());
             ps.setInt(3, user.getId());
@@ -70,8 +76,7 @@ public class NewUserDAOImpl implements NewUserDAO {
 
     @Override
     public void deleteUser(int id) {
-        final String sql = "DELETE FROM User WHERE id = ?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (PreparedStatement ps = connection.prepareStatement(DELETE_USER)) {
             ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException e) {

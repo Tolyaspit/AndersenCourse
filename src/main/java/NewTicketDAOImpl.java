@@ -12,7 +12,7 @@ public class NewTicketDAOImpl implements NewTicketDAO {
 
     @Override
     public void saveTicket(NewTicket ticket) {
-        String sql = "INSERT INTO Ticket (id, ticket_type, start_date, price) VALUES (?, ?, ?, ?)";
+        final String sql = "INSERT INTO Ticket (id, ticket_type, start_date, price) VALUES (?, ?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, ticket.getId());
             ps.setString(2, ticket.getTicketType());
@@ -26,7 +26,7 @@ public class NewTicketDAOImpl implements NewTicketDAO {
 
     @Override
     public NewTicket getTicketById(int id) {
-        String sql = "SELECT * FROM Ticket WHERE id = ?";
+        final String sql = "SELECT * FROM Ticket WHERE id = ?";
         NewTicket ticket = null;
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, id);
@@ -43,7 +43,7 @@ public class NewTicketDAOImpl implements NewTicketDAO {
 
     @Override
     public List<NewTicket> getAllTickets() {
-        String sql = "SELECT * FROM Ticket";
+        final String sql = "SELECT * FROM Ticket";
         List<NewTicket> tickets = new ArrayList<>();
         try (Statement stmt = connection.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
@@ -59,7 +59,7 @@ public class NewTicketDAOImpl implements NewTicketDAO {
 
     @Override
     public void updateTicket(NewTicket ticket) {
-        String sql = "UPDATE Ticket SET ticket_type = ?, start_date = ?, price = ? WHERE id = ?";
+        final String sql = "UPDATE Ticket SET ticket_type = ?, start_date = ?, price = ? WHERE id = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, ticket.getTicketType());
             ps.setString(2, ticket.getStartDate());
@@ -73,7 +73,7 @@ public class NewTicketDAOImpl implements NewTicketDAO {
 
     @Override
     public void deleteTicket(int id) {
-        String sql = "DELETE FROM Ticket WHERE id = ?";
+        final String sql = "DELETE FROM Ticket WHERE id = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, id);
             ps.executeUpdate();

@@ -12,7 +12,7 @@ public class NewUserDAOImpl implements NewUserDAO {
 
     @Override
     public void saveUser(NewUser user) {
-        String sql = "INSERT INTO User (id, name, email) VALUES (?, ?, ?)";
+        final String sql = "INSERT INTO User (id, name, email) VALUES (?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, user.getId());
             ps.setString(2, user.getName());
@@ -25,7 +25,7 @@ public class NewUserDAOImpl implements NewUserDAO {
 
     @Override
     public NewUser getUserById(int id) {
-        String sql = "SELECT * FROM User WHERE id = ?";
+        final String sql = "SELECT * FROM User WHERE id = ?";
         NewUser user = null;
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, id);
@@ -41,7 +41,7 @@ public class NewUserDAOImpl implements NewUserDAO {
 
     @Override
     public List<NewUser> getAllUsers() {
-        String sql = "SELECT * FROM User";
+        final String sql = "SELECT * FROM User";
         List<NewUser> users = new ArrayList<>();
         try (Statement stmt = connection.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
@@ -57,7 +57,7 @@ public class NewUserDAOImpl implements NewUserDAO {
 
     @Override
     public void updateUser(NewUser user) {
-        String sql = "UPDATE User SET name = ?, email = ? WHERE id = ?";
+        final String sql = "UPDATE User SET name = ?, email = ? WHERE id = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, user.getName());
             ps.setString(2, user.getEmail());
@@ -70,7 +70,7 @@ public class NewUserDAOImpl implements NewUserDAO {
 
     @Override
     public void deleteUser(int id) {
-        String sql = "DELETE FROM User WHERE id = ?";
+        final String sql = "DELETE FROM User WHERE id = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, id);
             ps.executeUpdate();

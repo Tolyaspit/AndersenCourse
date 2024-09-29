@@ -1,17 +1,27 @@
+import jakarta.persistence.*;
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "users")
 public class NewUser {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(nullable = false)
     private String name;
-    private String email;
 
-    public NewUser() {}
+    @Column(name = "creation_date", nullable = false)
+    private LocalDate creationDate;
 
-    public NewUser(int id, String name, String email) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
+    public NewUser() {
     }
 
-    // Getters and Setters
+    public NewUser(String name, LocalDate creationDate) {
+        this.name = name;
+        this.creationDate = creationDate;
+    }
+
     public int getId() {
         return id;
     }
@@ -28,12 +38,12 @@ public class NewUser {
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
+    public LocalDate getCreationDate() {
+        return creationDate;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
     }
 
     @Override
@@ -41,7 +51,7 @@ public class NewUser {
         return "NewUser{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
+                ", creationDate=" + creationDate +
                 '}';
     }
 }

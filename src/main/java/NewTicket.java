@@ -21,10 +21,10 @@ public class NewTicket {
     public NewTicket() {
     }
 
-    public NewTicket(NewUser user, String ticketType, LocalDate creationDate) {
+    public NewTicket(NewUser user, String ticketType) {
         this.user = user;
         this.ticketType = ticketType;
-        this.creationDate = creationDate;
+        this.creationDate = LocalDate.now();
     }
 
     public int getId() {

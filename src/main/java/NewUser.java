@@ -17,9 +17,9 @@ public class NewUser {
     public NewUser() {
     }
 
-    public NewUser(String name, LocalDate creationDate) {
+    public NewUser(String name) {
         this.name = name;
-        this.creationDate = creationDate;
+        this.creationDate = LocalDate.now();
     }
 
     public int getId() {

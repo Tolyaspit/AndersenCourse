@@ -19,7 +19,9 @@ public class NewUserDAOImpl implements NewUserDAO {
             session.save(user);
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) transaction.rollback();
+            if (transaction != null) {
+                transaction.rollback();
+            }
             e.printStackTrace();
         }
     }
@@ -46,7 +48,9 @@ public class NewUserDAOImpl implements NewUserDAO {
             session.update(user);
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) transaction.rollback();
+            if (transaction != null) {
+                transaction.rollback();
+            }
             e.printStackTrace();
         }
     }
@@ -62,7 +66,9 @@ public class NewUserDAOImpl implements NewUserDAO {
             }
             transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) transaction.rollback();
+            if (transaction != null) {
+                transaction.rollback();
+            }
             e.printStackTrace();
         }
     }

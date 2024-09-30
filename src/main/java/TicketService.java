@@ -75,7 +75,7 @@ public class TicketService {
 
         System.out.println("Size: " + set.size());
 
-        SessionFactory sessionFactory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+        SessionFactory sessionFactory = HibernateConfig.createSessionFactory();
 
         // Create DAO objects
         NewUserDAO newUserDAO = new NewUserDAOImpl(sessionFactory);
@@ -83,7 +83,7 @@ public class TicketService {
 
         // Create and save a new user
         NewUser user = new NewUser();
-        user.setName("Tolegen Khamitbekov");
+        user.setName("Ivan An");
         user.setCreationDate(LocalDate.now());
         newUserDAO.saveUser(user);
 

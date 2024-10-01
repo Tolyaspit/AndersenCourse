@@ -1,3 +1,7 @@
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -70,6 +74,44 @@ public class TicketService {
         set.printElements();
 
         System.out.println("Size: " + set.size());
+
+        SessionFactory sessionFactory = HibernateConfig.createSessionFactory();
+
+        // Create DAO objects
+        NewUserDAO newUserDAO = new NewUserDAOImpl(sessionFactory);
+        NewTicketDAO newTicketDAO = new NewTicketDAOImpl(sessionFactory);
+
+        // Create and save a new user
+        NewUser user = new NewUser();
+        user.setName("Ivan An");
+        user.setCreationDate(LocalDate.now());
+        newUserDAO.saveUser(user);
+
+        // Fetch the saved user to get the assigned ID
+        NewUser savedUser = newUserDAO.getUserById(user.getId());
+        System.out.println("Saved User: " + savedUser);
+
+        // Create and save a new ticket for this user
+        NewTicket newTicket = new NewTicket();
+        newTicket.setUser(savedUser);
+        newTicket.setTicketType("Default Admission");
+        newTicket.setCreationDate(LocalDate.now());
+        newTicketDAO.saveTicket(newTicket);
+
+        // Fetch the saved ticket
+        NewTicket savedTicket = newTicketDAO.getTicketById(newTicket.getId());
+        System.out.println("Saved Ticket: " + savedTicket);
+
+        // Retrieve all users
+        List<NewUser> users = newUserDAO.getAllUsers();
+        users.forEach(System.out::println);
+
+        // Retrieve all tickets
+        List<NewTicket> newTickets = newTicketDAO.getAllTickets();
+        newTickets.forEach(System.out::println);
+
+        // Close the session factory
+        sessionFactory.close();
     }
 
     private List<Ticket> createTicketsFromPayload() {

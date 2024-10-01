@@ -1,85 +1,74 @@
-import java.sql.*;
-import java.util.ArrayList;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
 import java.util.List;
 
 public class NewUserDAOImpl implements NewUserDAO {
-    private static final String INSERT_USER =
-            "INSERT INTO User (name, email) VALUES (?, ?)";
-    private static final String SELECT_USER_BY_ID =
-            "SELECT * FROM User WHERE id = ?";
-    private static final String SELECT_ALL_USERS =
-            "SELECT * FROM User";
-    private static final String UPDATE_USER =
-            "UPDATE User SET name = ?, email = ? WHERE id = ?";
-    private static final String DELETE_USER =
-            "DELETE FROM User WHERE id = ?";
+    private SessionFactory sessionFactory;
 
-    private Connection connection;
-
-    public NewUserDAOImpl(Connection connection) {
-        this.connection = connection;
+    public NewUserDAOImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     @Override
     public void saveUser(NewUser user) {
-        try (PreparedStatement ps = connection.prepareStatement(INSERT_USER)) {
-            ps.setInt(1, user.getId());
-            ps.setString(2, user.getName());
-            ps.setString(3, user.getEmail());
-            ps.executeUpdate();
-        } catch (SQLException e) {
+        Transaction transaction = null;
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            session.save(user);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
             e.printStackTrace();
         }
     }
 
     @Override
     public NewUser getUserById(int id) {
-        NewUser user = null;
-        try (PreparedStatement ps = connection.prepareStatement(SELECT_USER_BY_ID)) {
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                user = new NewUser(rs.getInt("id"), rs.getString("name"), rs.getString("email"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        try (Session session = sessionFactory.openSession()) {
+            return session.get(NewUser.class, id);
         }
-        return user;
     }
 
     @Override
     public List<NewUser> getAllUsers() {
-        List<NewUser> users = new ArrayList<>();
-        try (Statement stmt = connection.createStatement()) {
-            ResultSet rs = stmt.executeQuery(SELECT_ALL_USERS);
-            while (rs.next()) {
-                users.add(new NewUser(rs.getInt("id"), rs.getString("name"),
-                        rs.getString("email")));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("FROM NewUser", NewUser.class).list();
         }
-        return users;
     }
 
     @Override
     public void updateUser(NewUser user) {
-        try (PreparedStatement ps = connection.prepareStatement(UPDATE_USER)) {
-            ps.setString(1, user.getName());
-            ps.setString(2, user.getEmail());
-            ps.setInt(3, user.getId());
-            ps.executeUpdate();
-        } catch (SQLException e) {
+        Transaction transaction = null;
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            session.update(user);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
             e.printStackTrace();
         }
     }
 
     @Override
     public void deleteUser(int id) {
-        try (PreparedStatement ps = connection.prepareStatement(DELETE_USER)) {
-            ps.setInt(1, id);
-            ps.executeUpdate();
-        } catch (SQLException e) {
+        Transaction transaction = null;
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            NewUser user = session.get(NewUser.class, id);
+            if (user != null) {
+                session.delete(user);
+            }
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
             e.printStackTrace();
         }
     }

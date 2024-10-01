@@ -1,25 +1,46 @@
+import jakarta.persistence.*;
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "tickets")
 public class NewTicket {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private NewUser user;
+
+    @Column(name = "ticket_type", nullable = false)
     private String ticketType;
-    private String startDate;
-    private double price;
 
-    public NewTicket() {}
+    @Column(name = "creation_date", nullable = false)
+    private LocalDate creationDate;
 
-    public NewTicket(int id, String ticketType, String startDate, double price) {
-        this.id = id;
-        this.ticketType = ticketType;
-        this.startDate = startDate;
-        this.price = price;
+    public NewTicket() {
     }
 
-    // Getters and Setters
+    public NewTicket(NewUser user, String ticketType) {
+        this.user = user;
+        this.ticketType = ticketType;
+        this.creationDate = LocalDate.now();
+    }
+
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public NewUser getUser() {
+        return user;
+    }
+
+    public void setUser(NewUser user) {
+        this.user = user;
     }
 
     public String getTicketType() {
@@ -30,29 +51,21 @@ public class NewTicket {
         this.ticketType = ticketType;
     }
 
-    public String getStartDate() {
-        return startDate;
+    public LocalDate getCreationDate() {
+        return creationDate;
     }
 
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
     }
 
     @Override
     public String toString() {
         return "NewTicket{" +
                 "id=" + id +
+                ", user=" + user +
                 ", ticketType='" + ticketType + '\'' +
-                ", startDate='" + startDate + '\'' +
-                ", price=" + price +
+                ", creationDate=" + creationDate +
                 '}';
     }
 }

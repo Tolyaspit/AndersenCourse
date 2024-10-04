@@ -1,22 +1,27 @@
+package dao;
+
+import model.NewTicket;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public class NewUserDAOImpl implements NewUserDAO {
+@Repository
+public class NewTicketDAOImpl implements NewTicketDAO {
     private SessionFactory sessionFactory;
 
-    public NewUserDAOImpl(SessionFactory sessionFactory) {
+    public NewTicketDAOImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
     @Override
-    public void saveUser(NewUser user) {
+    public void saveTicket(NewTicket ticket) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            session.save(user);
+            session.save(ticket);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
@@ -27,25 +32,25 @@ public class NewUserDAOImpl implements NewUserDAO {
     }
 
     @Override
-    public NewUser getUserById(int id) {
+    public NewTicket getTicketById(int id) {
         try (Session session = sessionFactory.openSession()) {
-            return session.get(NewUser.class, id);
+            return session.get(NewTicket.class, id);
         }
     }
 
     @Override
-    public List<NewUser> getAllUsers() {
+    public List<NewTicket> getAllTickets() {
         try (Session session = sessionFactory.openSession()) {
-            return session.createQuery("FROM NewUser", NewUser.class).list();
+            return session.createQuery("FROM NewTicket", NewTicket.class).list();
         }
     }
 
     @Override
-    public void updateUser(NewUser user) {
+    public void updateTicket(NewTicket ticket) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            session.update(user);
+            session.update(ticket);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
@@ -56,13 +61,13 @@ public class NewUserDAOImpl implements NewUserDAO {
     }
 
     @Override
-    public void deleteUser(int id) {
+    public void deleteTicket(int id) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            NewUser user = session.get(NewUser.class, id);
-            if (user != null) {
-                session.delete(user);
+            NewTicket ticket = session.get(NewTicket.class, id);
+            if (ticket != null) {
+                session.delete(ticket);
             }
             transaction.commit();
         } catch (Exception e) {

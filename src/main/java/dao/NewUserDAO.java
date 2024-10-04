@@ -1,3 +1,7 @@
+package dao;
+
+import model.NewUser;
+
 import java.util.List;
 
 public interface NewUserDAO {

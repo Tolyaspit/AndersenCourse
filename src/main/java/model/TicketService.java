@@ -1,5 +1,17 @@
+package model;
+
+import collections.CustomArraylist;
+import collections.CustomHashSet;
+import config.Config;
+import dao.NewTicketDAO;
+import dao.NewTicketDAOImpl;
+import dao.NewUserDAO;
+import dao.NewUserDAOImpl;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import util.HibernateConfig;
+import util.TicketValidator;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -18,7 +30,7 @@ public class TicketService {
         System.out.println(" Tickets have been stored! ");
 
         Ticket ticket = ticketService.getTicketById("H890");
-        System.out.println("Retrieved Ticket: " + ticket);
+        System.out.println("Retrieved model.Ticket: " + ticket);
 
         List<Ticket> ticketsFromStadiumSector = ticketService.getTicketsByStadiumSector(Ticket.StadiumSector.A);
         ticketService.printTickets(ticketsFromStadiumSector);
@@ -75,43 +87,22 @@ public class TicketService {
 
         System.out.println("Size: " + set.size());
 
-        SessionFactory sessionFactory = HibernateConfig.createSessionFactory();
+        ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
 
-        // Create DAO objects
-        NewUserDAO newUserDAO = new NewUserDAOImpl(sessionFactory);
-        NewTicketDAO newTicketDAO = new NewTicketDAOImpl(sessionFactory);
+        NewUserDAO userDAO = context.getBean(NewUserDAO.class);
+        NewTicketDAO ticketDAO = context.getBean(NewTicketDAO.class);
 
-        // Create and save a new user
-        NewUser user = new NewUser();
-        user.setName("Ivan An");
-        user.setCreationDate(LocalDate.now());
-        newUserDAO.saveUser(user);
+        // Creating a new user
+        NewUser user = new NewUser("Tolya Khamitbekov");
+        userDAO.saveUser(user);
 
-        // Fetch the saved user to get the assigned ID
-        NewUser savedUser = newUserDAO.getUserById(user.getId());
-        System.out.println("Saved User: " + savedUser);
+        // Creating a new ticket for the user
+        NewTicket newTicket = new NewTicket(user, "DEFAULT");
+        ticketDAO.saveTicket(newTicket);
 
-        // Create and save a new ticket for this user
-        NewTicket newTicket = new NewTicket();
-        newTicket.setUser(savedUser);
-        newTicket.setTicketType("Default Admission");
-        newTicket.setCreationDate(LocalDate.now());
-        newTicketDAO.saveTicket(newTicket);
-
-        // Fetch the saved ticket
-        NewTicket savedTicket = newTicketDAO.getTicketById(newTicket.getId());
-        System.out.println("Saved Ticket: " + savedTicket);
-
-        // Retrieve all users
-        List<NewUser> users = newUserDAO.getAllUsers();
-        users.forEach(System.out::println);
-
-        // Retrieve all tickets
-        List<NewTicket> newTickets = newTicketDAO.getAllTickets();
-        newTickets.forEach(System.out::println);
-
-        // Close the session factory
-        sessionFactory.close();
+        // Fetch and display users and tickets
+        System.out.println("All Users: " + userDAO.getAllUsers());
+        System.out.println("All Tickets: " + ticketDAO.getAllTickets());
     }
 
     private List<Ticket> createTicketsFromPayload() {

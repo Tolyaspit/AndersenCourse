@@ -86,44 +86,6 @@ public class TicketService {
         set.printElements();
 
         System.out.println("Size: " + set.size());
-//
-//        SessionFactory sessionFactory = HibernateConfig.createSessionFactory();
-//
-//        // Create DAO objects
-//        NewUserDAO newUserDAO = new NewUserDAOImpl(sessionFactory);
-//        NewTicketDAO newTicketDAO = new NewTicketDAOImpl(sessionFactory);
-//
-//        // Create and save a new user
-//        NewUser user = new NewUser();
-//        user.setName("Ivan An");
-//        user.setCreationDate(LocalDate.now());
-//        newUserDAO.saveUser(user);
-//
-//        // Fetch the saved user to get the assigned ID
-//        NewUser savedUser = newUserDAO.getUserById(user.getId());
-//        System.out.println("Saved model.User: " + savedUser);
-//
-//        // Create and save a new ticket for this user
-//        NewTicket newTicket = new NewTicket();
-//        newTicket.setUser(savedUser);
-//        newTicket.setTicketType("Default Admission");
-//        newTicket.setCreationDate(LocalDate.now());
-//        newTicketDAO.saveTicket(newTicket);
-//
-//        // Fetch the saved ticket
-//        NewTicket savedTicket = newTicketDAO.getTicketById(newTicket.getId());
-//        System.out.println("Saved model.Ticket: " + savedTicket);
-//
-//        // Retrieve all users
-//        List<NewUser> users = newUserDAO.getAllUsers();
-//        users.forEach(System.out::println);
-//
-//        // Retrieve all tickets
-//        List<NewTicket> newTickets = newTicketDAO.getAllTickets();
-//        newTickets.forEach(System.out::println);
-//
-//        // Close the session factory
-//        sessionFactory.close();
 
         ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
 
@@ -187,7 +149,7 @@ public class TicketService {
         if (ticket != null) {
             return ticket;
         } else {
-            System.out.println("model.Ticket with ID " + id + " does not exist.");
+            System.out.println("Ticket with ID " + id + " does not exist.");
             return null;
         }
     }

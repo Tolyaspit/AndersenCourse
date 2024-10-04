@@ -41,7 +41,7 @@ public class NewTicketDAOImpl implements NewTicketDAO {
     @Override
     public List<NewTicket> getAllTickets() {
         try (Session session = sessionFactory.openSession()) {
-            return session.createQuery("FROM model.NewTicket", NewTicket.class).list();
+            return session.createQuery("FROM NewTicket", NewTicket.class).list();
         }
     }
 

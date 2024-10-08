@@ -43,7 +43,7 @@ public class Config {
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
     }
-
+  
     @Bean
     public HibernateTransactionManager transactionManager(){
         HibernateTransactionManager transactionManager = new HibernateTransactionManager();

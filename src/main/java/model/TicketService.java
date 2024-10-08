@@ -9,6 +9,15 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import util.TicketValidator;
 
+import dao.NewTicketDAOImpl;
+import dao.NewUserDAO;
+import dao.NewUserDAOImpl;
+import org.hibernate.SessionFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import util.HibernateConfig;
+import util.TicketValidator;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -90,7 +99,6 @@ public class TicketService {
         // Creating a new user
         NewUser user = new NewUser("Sharipbek Rakhat");
         user.setStatus(NewUser.UserStatus.ACTIVATED);
-        userDAO.saveUser(user);
 
         // Creating a new ticket for the user
         NewTicket newTicket = new NewTicket(user, "DEFAULT");

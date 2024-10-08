@@ -1,3 +1,5 @@
+package model;
+
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
@@ -10,6 +12,10 @@ public class NewUser {
 
     @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
 
     @Column(name = "creation_date", nullable = false)
     private LocalDate creationDate;
@@ -42,16 +48,28 @@ public class NewUser {
         return creationDate;
     }
 
+    public UserStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(UserStatus status) {
+        this.status = status;
+    }
+
     public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
     }
 
     @Override
     public String toString() {
-        return "NewUser{" +
+        return "model.NewUser{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", creationDate=" + creationDate +
                 '}';
+    }
+
+    public enum UserStatus {
+        PENDING, ACTIVATED, DEACTIVATED
     }
 }

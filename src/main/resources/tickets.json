@@ -1,0 +1,12 @@
+[
+  { "ticketClass":"CLA",
+    "ticketType": "DAY",
+    "startDate" : "2024-01-01",
+    "price": 1
+  },
+  { "ticketClass":"STD",
+    "ticketType": "PRIME",
+    "startDate" : "2025-01-01",
+    "price": 50
+  }
+]

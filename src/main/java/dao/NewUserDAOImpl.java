@@ -1,10 +1,13 @@
 package dao;
 
+import jakarta.transaction.Transactional;
+import model.NewTicket;
 import model.NewUser;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,27 +16,25 @@ import java.util.List;
 public class NewUserDAOImpl implements NewUserDAO {
     private SessionFactory sessionFactory;
 
+    @Value("${app.update.enabled:true}")
+    private boolean isUpdateEnabled;
+
     @Autowired
     public NewUserDAOImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
     @Override
+    @Transactional
     public void saveUser(NewUser user) {
-        Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
-            session.save(user);
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
+        if (user.getStatus() == null) {
+            user.setStatus(NewUser.UserStatus.PENDING);
         }
+        sessionFactory.getCurrentSession().save(user);
     }
 
     @Override
+    @Transactional
     public NewUser getUserById(int id) {
         try (Session session = sessionFactory.openSession()) {
             return session.get(NewUser.class, id);
@@ -41,41 +42,46 @@ public class NewUserDAOImpl implements NewUserDAO {
     }
 
     @Override
+    @Transactional
     public List<NewUser> getAllUsers() {
         try (Session session = sessionFactory.openSession()) {
-            return session.createQuery("FROM model.NewUser", NewUser.class).list();
+            return session.createQuery("FROM model.model.NewUser", NewUser.class).list();
         }
     }
 
     @Override
+    @Transactional
     public void updateUser(NewUser user) {
-        Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
-            session.update(user);
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
+        if (user.getStatus() == null) {
+            user.setStatus(NewUser.UserStatus.PENDING);
+        }
+        sessionFactory.getCurrentSession().update(user);
+    }
+
+    @Override
+    @Transactional
+    public void deleteUser(int id) {
+        NewUser user = sessionFactory.getCurrentSession().get(NewUser.class, id);
+        if (user != null) {
+            sessionFactory.getCurrentSession().delete(user);
         }
     }
 
     @Override
-    public void deleteUser(int id) {
-        Transaction transaction = null;
+    @Transactional
+    public void updateUserAndCreateTicket(int userId, NewTicket ticket) {
+        if (!isUpdateEnabled) {
+            throw new RuntimeException("Update feature is disabled in the application.");
+        }
+
         try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
-            NewUser user = session.get(NewUser.class, id);
+            NewUser user = session.get(NewUser.class, userId);
             if (user != null) {
-                session.delete(user);
+                user.setStatus(NewUser.UserStatus.ACTIVATED);
+                session.update(user);
+                session.save(ticket);
             }
-            transaction.commit();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             e.printStackTrace();
         }
     }

@@ -62,7 +62,7 @@ public class NewUser {
 
     @Override
     public String toString() {
-        return "model.NewUser{" +
+        return "NewUser{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", creationDate=" + creationDate +

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
+@Transactional
 public class NewUserDAOImpl implements NewUserDAO {
     private SessionFactory sessionFactory;
 
@@ -24,7 +25,6 @@ public class NewUserDAOImpl implements NewUserDAO {
     }
 
     @Override
-    @Transactional
     public void saveUser(NewUser user) {
         if (user.getStatus() == null) {
             user.setStatus(NewUser.UserStatus.PENDING);
@@ -33,7 +33,6 @@ public class NewUserDAOImpl implements NewUserDAO {
     }
 
     @Override
-    @Transactional
     public NewUser getUserById(int id) {
         try (Session session = sessionFactory.openSession()) {
             return session.get(NewUser.class, id);
@@ -41,7 +40,6 @@ public class NewUserDAOImpl implements NewUserDAO {
     }
 
     @Override
-    @Transactional
     public List<NewUser> getAllUsers() {
         try (Session session = sessionFactory.openSession()) {
             return session.createQuery("FROM model.model.NewUser", NewUser.class).list();
@@ -49,7 +47,6 @@ public class NewUserDAOImpl implements NewUserDAO {
     }
 
     @Override
-    @Transactional
     public void updateUser(NewUser user) {
         if (user.getStatus() == null) {
             user.setStatus(NewUser.UserStatus.PENDING);
@@ -58,7 +55,6 @@ public class NewUserDAOImpl implements NewUserDAO {
     }
 
     @Override
-    @Transactional
     public void deleteUser(int id) {
         NewUser user = sessionFactory.getCurrentSession().get(NewUser.class, id);
         if (user != null) {
@@ -67,7 +63,6 @@ public class NewUserDAOImpl implements NewUserDAO {
     }
 
     @Override
-    @Transactional
     public void updateUserAndCreateTicket(int userId, NewTicket ticket) {
         if (!isUpdateEnabled) {
             throw new RuntimeException("Update feature is disabled in the application.");

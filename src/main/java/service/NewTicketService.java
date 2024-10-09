@@ -15,31 +15,21 @@ import java.util.List;
 
 @Service
 public class NewTicketService {
-    @Autowired
     private NewUserDAO userDAO;
 
-    @Autowired
     private NewTicketDAO ticketDAO;
 
     @Autowired
-    private Resource ticketJson;
+    public NewTicketService(NewUserDAO userDAO, NewTicketDAO ticketDAO) {
+        this.userDAO = userDAO;
+        this.ticketDAO = ticketDAO;
+    }
 
     public void updateUserAndCreateTicket(int userId, String ticketType) {
         NewUser user = userDAO.getUserById(userId);
         if (user != null) {
             NewTicket ticket = new NewTicket(user, ticketType);
             userDAO.updateUserAndCreateTicket(userId, ticket);
-        }
-    }
-
-    public List<NewTicket> loadTicketsFromFile() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            NewTicket[] tickets = objectMapper.readValue(ticketJson.getInputStream(), NewTicket[].class);
-            return Arrays.asList(tickets);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
         }
     }
 }

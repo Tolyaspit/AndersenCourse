@@ -3,8 +3,8 @@ package dao;
 import model.NewTicket;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,21 +17,13 @@ public class NewTicketDAOImpl implements NewTicketDAO {
     }
 
     @Override
+    @Transactional
     public void saveTicket(NewTicket ticket) {
-        Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
-            session.save(ticket);
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
-        }
+        sessionFactory.getCurrentSession().save(ticket);
     }
 
     @Override
+    @Transactional
     public NewTicket getTicketById(int id) {
         try (Session session = sessionFactory.openSession()) {
             return session.get(NewTicket.class, id);
@@ -39,42 +31,25 @@ public class NewTicketDAOImpl implements NewTicketDAO {
     }
 
     @Override
+    @Transactional
     public List<NewTicket> getAllTickets() {
         try (Session session = sessionFactory.openSession()) {
-            return session.createQuery("FROM NewTicket", NewTicket.class).list();
+            return session.createQuery("FROM model.NewTicket", NewTicket.class).list();
         }
     }
 
     @Override
+    @Transactional
     public void updateTicket(NewTicket ticket) {
-        Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
-            session.update(ticket);
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
-        }
+        sessionFactory.getCurrentSession().update(ticket);
     }
 
     @Override
+    @Transactional
     public void deleteTicket(int id) {
-        Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
-            NewTicket ticket = session.get(NewTicket.class, id);
-            if (ticket != null) {
-                session.delete(ticket);
-            }
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
+        NewTicket ticket = sessionFactory.getCurrentSession().get(NewTicket.class, id);
+        if (ticket != null) {
+            sessionFactory.getCurrentSession().delete(ticket);
         }
     }
 }

@@ -4,6 +4,11 @@ import collections.CustomArraylist;
 import collections.CustomHashSet;
 import config.Config;
 import dao.NewTicketDAO;
+import dao.NewUserDAO;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import util.TicketValidator;
+
 import dao.NewTicketDAOImpl;
 import dao.NewUserDAO;
 import dao.NewUserDAOImpl;
@@ -13,7 +18,6 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import util.HibernateConfig;
 import util.TicketValidator;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -93,16 +97,12 @@ public class TicketService {
         NewTicketDAO ticketDAO = context.getBean(NewTicketDAO.class);
 
         // Creating a new user
-        NewUser user = new NewUser("Tolya Khamitbekov");
-        userDAO.saveUser(user);
+        NewUser user = new NewUser("Sharipbek Rakhat");
+        user.setStatus(NewUser.UserStatus.ACTIVATED);
 
         // Creating a new ticket for the user
         NewTicket newTicket = new NewTicket(user, "DEFAULT");
         ticketDAO.saveTicket(newTicket);
-
-        // Fetch and display users and tickets
-        System.out.println("All Users: " + userDAO.getAllUsers());
-        System.out.println("All Tickets: " + ticketDAO.getAllTickets());
     }
 
     private List<Ticket> createTicketsFromPayload() {

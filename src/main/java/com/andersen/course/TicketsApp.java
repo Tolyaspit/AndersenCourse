@@ -1,5 +1,6 @@
 package com.andersen.course;
 
+import com.andersen.course.config.AppConfiguration;
 import com.andersen.course.model.NewTicket;
 import com.andersen.course.model.NewUser;
 import com.andersen.course.repository.UserRepository;
@@ -10,11 +11,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.andersen.course.repository.TicketRepository;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
-@SpringBootApplication
-@EntityScan(basePackages = {"com.andersen.course.model"})
 public class TicketsApp {
 
     public static void main(String[] args) {
-        SpringApplication.run(TicketsApp.class, args);
+        SpringApplication.run(AppConfiguration.class, args);
     }
 }

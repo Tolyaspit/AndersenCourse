@@ -1,20 +1,21 @@
 package com.andersen.course.config;
 
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate5.HibernateTransactionManager;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
-import java.util.Properties;
 
+@SpringBootApplication
+@EntityScan(basePackages = {"com.andersen.course.model"})
 @Configuration
 @EnableTransactionManagement
-public class Config {
+public class AppConfiguration {
 
     @Bean
     public DataSource dataSource(){

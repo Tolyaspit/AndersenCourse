@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
-@SpringBootApplication
 @EntityScan(basePackages = {"com.andersen.course.model"})
 @Configuration
 @EnableTransactionManagement

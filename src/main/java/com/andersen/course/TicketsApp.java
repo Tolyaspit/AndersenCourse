@@ -11,9 +11,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.andersen.course.repository.TicketRepository;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
+@SpringBootApplication
 public class TicketsApp {
 
     public static void main(String[] args) {
-        SpringApplication.run(AppConfiguration.class, args);
+        SpringApplication.run(TicketsApp.class, args);
     }
 }

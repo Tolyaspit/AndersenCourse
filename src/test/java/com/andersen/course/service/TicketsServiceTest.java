@@ -14,6 +14,7 @@ import javax.xml.transform.Result;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -59,5 +60,30 @@ class TicketsServiceTest {
         List<NewTicket> result = ticketsService.getAllTickets();
         assertNotNull(result);
         assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void getTicketById_PositiveCase(){
+        NewTicket ticket = new NewTicket();
+        when(ticketRepository.findById(1)).thenReturn(Optional.of(ticket));
+
+        NewTicket result = ticketsService.getTicketById(1);
+        assertNotNull(result);
+    }
+
+    @Test
+    void getTicketById_NegativeCase(){
+        when(ticketRepository.findById(1)).thenReturn(Optional.empty());
+
+        NewTicket result = ticketsService.getTicketById(1);
+        assertNotNull(result);
+    }
+
+    @Test
+    void getTicketById_CornerCase(){
+        when(ticketRepository.findById(-1)).thenReturn(Optional.empty());
+
+        NewTicket result = ticketsService.getTicketById(-1);
+        assertNotNull(result);
     }
 }

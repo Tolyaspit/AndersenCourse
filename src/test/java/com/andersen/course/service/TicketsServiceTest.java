@@ -2,16 +2,12 @@ package com.andersen.course.service;
 
 import com.andersen.course.model.NewTicket;
 import com.andersen.course.repository.TicketRepository;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import javax.xml.transform.Result;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +15,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class TicketsServiceTest {
 
     @Mock
@@ -27,14 +24,8 @@ class TicketsServiceTest {
     @InjectMocks
     private TicketsService ticketsService;
 
-    @BeforeEach
-    void setUp(){
-        MockitoAnnotations.openMocks(this);
-    }
-
-
     @Test
-    void getAllTickets_PositiveCase() {
+    void getAllTickets_ticketsArePresent() {
         List<NewTicket> tickets = Arrays.asList(new NewTicket(),new NewTicket());
         when(ticketRepository.findAll()).thenReturn(tickets);
 
@@ -46,7 +37,7 @@ class TicketsServiceTest {
     }
 
     @Test
-    void getAllTickets_NegativeCase() {
+    void getAllTickets_noTicketsAvailable() {
         when(ticketRepository.findAll()).thenReturn(null);
 
         List<NewTicket> result = ticketsService.getAllTickets();
@@ -54,7 +45,7 @@ class TicketsServiceTest {
     }
 
     @Test
-    void getAllTickets_CornerCase() {
+    void getAllTickets_emptyTicketList() {
         when(ticketRepository.findAll()).thenReturn(Arrays.asList());
 
         List<NewTicket> result = ticketsService.getAllTickets();
@@ -63,7 +54,7 @@ class TicketsServiceTest {
     }
 
     @Test
-    void getTicketById_PositiveCase(){
+    void getTicketById_ticketIsFound(){
         NewTicket ticket = new NewTicket();
         when(ticketRepository.findById(1)).thenReturn(Optional.of(ticket));
 
@@ -72,7 +63,7 @@ class TicketsServiceTest {
     }
 
     @Test
-    void getTicketById_NegativeCase(){
+    void getTicketById_ticketNotFound(){
         when(ticketRepository.findById(1)).thenReturn(Optional.empty());
 
         NewTicket result = ticketsService.getTicketById(1);
@@ -80,7 +71,7 @@ class TicketsServiceTest {
     }
 
     @Test
-    void getTicketById_CornerCase(){
+    void getTicketById_invalidTicketId(){
         when(ticketRepository.findById(-1)).thenReturn(Optional.empty());
 
         NewTicket result = ticketsService.getTicketById(-1);
